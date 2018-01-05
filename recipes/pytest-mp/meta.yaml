@@ -1,0 +1,42 @@
+{% set name = "pytest-mp" %}
+{% set version = "0.0.1" %}
+{% set hash_type = "sha256" %}
+#{% set hash = "0b8622435e3c0650a8d5a07b73a7f9c4f79b52d7ed060536a6041f0da423ba8e" %}
+
+package:
+  name: {{ name }}
+  version: {{ version }}
+
+source:
+  fn: {{ name }}-{{ version }}.tar.gz
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  {{ hash_type }}: {{ hash }}
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+  noarch: python
+
+requirements:
+  build:
+    - python
+    - setuptools
+  run:
+    - python
+    - pytest
+    - psutil
+
+test:
+  imports:
+    - pytest_mp
+
+about:
+  home: https://github.com/ansible/pytest-mp
+  license: MIT
+  license_file: LICENSE
+  summary: pytest-mp is a minimalist approach to distributing and segregating pytest tests across processes using python's multiprocessing library and is heavily inspired by pytest-concurrent and pytest-xdist.
+  dev_url: https://github.com/ansible/pytest-mp
+
+extra:
+  recipe-maintainers:
+    - nicoddemus
